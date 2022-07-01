@@ -1,8 +1,10 @@
-import livros from "../models/Livro.js";
+import livros from "../models/Livro";
+import { Request, Response} from "express";
+import { CallbackError } from "mongoose";
 
 export default class LivroController {
 
-  static listarLivros = (req, res) => {
+  static listarLivros = (req: Request, res:Response) => {
     livros.find()
       .populate('autor')
       .exec((err, livros) => {
@@ -10,7 +12,7 @@ export default class LivroController {
   })
   }
 
-  static listarLivroPorId = (req, res) => {
+  static listarLivroPorId = (req: Request, res: Response) => {
     const id = req.params.id;
 
     livros.findById(id)
@@ -24,7 +26,7 @@ export default class LivroController {
     })
   }
 
-  static cadastrarLivro = (req, res) => {
+  static cadastrarLivro = (req: Request, res: Response) => {
     let livro = new livros(req.body);
 
     livro.save((err) => {
@@ -37,10 +39,10 @@ export default class LivroController {
     })
   }
 
-  static atualizarLivro = (req, res) => {
+  static atualizarLivro = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    livros.findByIdAndUpdate(id, {$set: req.body}, (err) => {
+    livros.findByIdAndUpdate(id, {$set: req.body}, (err:CallbackError) => {
       if(!err) {
         res.status(200).send({message: 'Livro atualizado com sucesso'})
       } else {
@@ -49,10 +51,10 @@ export default class LivroController {
     })
   }
 
-  static excluirLivro = (req, res) => {
+  static excluirLivro = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    livros.findByIdAndDelete(id, (err) => {
+    livros.findByIdAndDelete(id, (err:CallbackError) => {
       if(!err){
         res.status(200).send({message: 'Livro removido com sucesso'})
       } else {
@@ -61,7 +63,7 @@ export default class LivroController {
     })
   }
 
-  static listarLivroPorEditora = (req, res) => {
+  static listarLivroPorEditora = (req: Request, res: Response) => {
     const editora = req.query.editora
 
     livros.find({'editora': editora}, {}, (err, livros) => {

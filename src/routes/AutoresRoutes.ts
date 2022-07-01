@@ -1,7 +1,7 @@
-import express from "express";
+import { Router } from "express";
 import AutorController from "../controllers/AutoresController.js";
 
-const router = express.Router()
+const router = Router()
   .get("/autores", AutorController.listarAutores)
   .get("/autores/:id", AutorController.listarAutorPorId)
   .post("/autores", AutorController.cadastrarAutor)

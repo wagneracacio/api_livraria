@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import { connect, connection } from "mongoose"
 import config from './config.js'
 const {
     database: {
@@ -7,8 +7,8 @@ const {
         password
     }
 } = config
-mongoose.connect(`mongodb://${username}:${password}@${url}`);
+connect(`mongodb://${username}:${password}@${url}`);
 
-let db = mongoose.connection;
+let db = connection;
 
 export default db;

@@ -1,7 +1,7 @@
-import express from "express";
+import { Router } from "express";
 import LivroController from "../controllers/LivrosController.js";
 
-const router = express.Router()
+const router = Router()
   .get("/livros", LivroController.listarLivros)
   .get("/livros/busca", LivroController.listarLivroPorEditora)
   .get("/livros/:id", LivroController.listarLivroPorId)

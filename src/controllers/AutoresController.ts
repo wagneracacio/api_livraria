@@ -1,17 +1,19 @@
-import autores from "../models/Autor.js";
+import autores, { IAuthor } from "../models/Autor";
+import { Request, Response } from "express";
+import { CallbackError } from "mongoose";
 
 export default class AutorController {
 
-  static listarAutores = (req, res) => {
+  static listarAutores = (req: Request, res: Response) => {
     autores.find((err, autores) => {
       res.status(200).json(autores)
   })
   }
 
-  static listarAutorPorId = (req, res) => {
+  static listarAutorPorId = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    autores.findById(id, (err, autores) => {
+    autores.findById(id, (err:CallbackError, autores:IAuthor) => {
       if(err) {
         res.status(400).send({message: `${err.message} - Id do Autor não localizado.`})
       } else {
@@ -20,7 +22,7 @@ export default class AutorController {
     })
   }
 
-  static cadastrarAutor = (req, res) => {
+  static cadastrarAutor = (req: Request, res: Response) => {
     let autor = new autores(req.body);
 
     autor.save((err) => {
@@ -33,10 +35,10 @@ export default class AutorController {
     })
   }
 
-  static atualizarAutor = (req, res) => {
+  static atualizarAutor = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    autores.findByIdAndUpdate(id, {$set: req.body}, (err) => {
+    autores.findByIdAndUpdate(id, {$set: req.body}, (err:CallbackError) => {
       if(!err) {
         res.status(200).send({message: 'Autor atualizado com sucesso'})
       } else {
@@ -45,10 +47,10 @@ export default class AutorController {
     })
   }
 
-  static excluirAutor = (req, res) => {
+  static excluirAutor = (req: Request, res: Response) => {
     const id = req.params.id;
 
-    autores.findByIdAndDelete(id, (err) => {
+    autores.findByIdAndDelete(id, (err: CallbackError) => {
       if(!err){
         res.status(200).send({message: 'Autor removido com sucesso'})
       } else {
